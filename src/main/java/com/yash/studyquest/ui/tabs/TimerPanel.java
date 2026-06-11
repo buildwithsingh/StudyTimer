@@ -2,13 +2,12 @@ package com.yash.studyquest.ui.tabs;
 
 import com.yash.studyquest.model.FocusSession;
 import com.yash.studyquest.model.SettingsData;
-import com.yash.studyquest.service.ChimeService;
-import com.yash.studyquest.service.StreakService;
-import com.yash.studyquest.service.TimerService;
+import com.yash.studyquest.service.*;
 import com.yash.studyquest.storage.SessionStorage;
 import com.yash.studyquest.storage.SettingsStorage;
 import com.yash.studyquest.ui.components.CircularTimerComponent;
-
+import com.yash.studyquest.service.AchievementPopupService;
+import com.yash.studyquest.service.AchievementService;
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDateTime;
@@ -195,12 +194,25 @@ public class TimerPanel extends JPanel {
                         SessionStorage storage = new SessionStorage();
 
                         storage.saveSession(new FocusSession(LocalDateTime.now().toString(), focusDuration));
-
-                        StreakService streakService = new StreakService();
+                        StreakService streakService =
+                                new StreakService();
 
                         streakService.registerStudySession();
 
-                        JOptionPane.showMessageDialog(TimerPanel.this, "Focus Session Complete!");
+                        AchievementService achievementService =
+                                new AchievementService();
+
+                        if (achievementService.hasFirstSessionAchievement()) {
+
+                            AchievementPopupService.show(
+                                    "🥉 First Session"
+                            );
+                        }
+
+                        JOptionPane.showMessageDialog(
+                                TimerPanel.this,
+                                "Focus Session Complete!"
+                        );
 
                         focusMode = false;
                     } else {

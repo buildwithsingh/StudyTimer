@@ -1,5 +1,5 @@
 {
-  "focusDuration": 15,
-  "breakDuration": 10,
+  "focusDuration": 10,
+  "breakDuration": 5,
   "autoStart": true
 }
